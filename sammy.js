@@ -273,6 +273,7 @@
     this.listeners         = new Sammy.Object({});
     this.arounds           = [];
     this.befores           = [];
+		this.location_proxy    = null;
     // generate a unique namespace
     this.namespace         = (new Date()).getTime() + '-' + parseInt(Math.random() * 1000, 10);
     this.context_prototype = function() { Sammy.EventContext.apply(this, arguments); };
@@ -281,9 +282,9 @@
     if (_isFunction(app_function)) {
       app_function.apply(this, [this]);
     }
-    // set the location proxy if not defined to the default (HashLocationProxy)
-    if (!this.location_proxy) {
-      this.location_proxy = new Sammy.HashLocationProxy(app, this.run_interval_every);
+    // set the location proxy if not defined to thlocation_proxye default (HashLocationProxy)
+    if (this.location_proxy_class != null) {
+  		this.location_proxy = new this.location_proxy_class(app, this.run_interval_every);
     }
     if (this.debug) {
       this.bindToAllEvents(function(e, data) {
@@ -322,7 +323,7 @@
     // `Sammy.HashLocationProxy` on initialization. However, you can set
     // the location_proxy inside you're app function to give youre app a custom
     // location mechanism
-    location_proxy: null,
+    location_proxy_class: Sammy.HashLocationProxy,
 
     // The default template engine to use when using `partial()` in an
     // `EventContext`. `template_engine` can either be a string that
@@ -1012,7 +1013,7 @@
     // Delegates to the `location_proxy` to get the current location.
     // See `Sammy.HashLocationProxy` for more info on location proxies.
     getLocation: function() {
-      return this.location_proxy.getLocation();
+      return this.location_proxy != null && this.location_proxy.getLocation() || false;
     },
 
     // Delegates to the `location_proxy` to set the current location.

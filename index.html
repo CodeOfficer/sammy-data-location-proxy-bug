@@ -10,10 +10,11 @@
 	<script type="text/javascript" src="sammy.js"></script>
 	<script type="text/javascript" src="sammy.data_location_proxy.js"></script>
   <script type="text/javascript">
+  
+      Sammy.Application.prototype.debug = true;
+      Sammy.Application.prototype.location_proxy_class = Sammy.DataLocationProxy;
+      
       var APP = $.sammy(function() {
-
-				this.debug = true;
-				// this.location_proxy = new Sammy.DataLocationProxy(this);
 
         this.get('#/', function() {
           $('#main').text('#/');
