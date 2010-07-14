@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>Data Location Proxy</title>
+  <style type="text/css" media="screen">
+  </style>
+	<script type="text/javascript" src="jquery-1.4.2.js"></script>
+	<script type="text/javascript" src="sammy.js"></script>
+	<script type="text/javascript" src="sammy.data_location_proxy.js"></script>
+  <script type="text/javascript">
+      var APP = $.sammy(function() {
+
+				this.debug = true;
+				// this.location_proxy = new Sammy.DataLocationProxy(this);
+
+        this.get('#/', function() {
+          $('#main').text('#/');
+        });
+
+        this.get('#/get', function() {
+          $('#main').text('#/get Hello World');
+					this.redirect("#/redirected");
+        });
+
+        this.post('#/form_post', function() {
+          $('#main').text('#/form_post Hello World');
+					this.redirect("#/redirected");
+        });
+
+        this.get('#/form_get', function() {
+          $('#main').text('#/form_get Hello World');
+					this.redirect("#/redirected");
+        });
+
+        this.get('#/redirected', function() {
+          $('#main').text('#/redirected Hello World');
+        });
+
+      });
+
+      $(function() {
+        APP.run("#/")
+      });
+  </script>
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="main">
+    </div>
+    <ul id="link">
+      <li><a href="#/get">Click me!</a></li>
+      <li>
+				<form action="#/form_post" method="post">
+					<p><input type="text" name="data" value="xxx"/></p>
+					<p><input type="submit" value="Post me!"/></p>
+				</form>
+			</li>
+      <li>
+				<form action="#/form_get" method="get">
+					<p><input type="text" name="data" value="xxx"/></p>
+					<p><input type="submit" value="Get me!"/></p>
+				</form>
+			</li>
+      <li><a href="#/">Back</a></li>
+    </ul>
+		<a href="index.html">RELOAD</a>
+  </div>
+</body>
+</html>
