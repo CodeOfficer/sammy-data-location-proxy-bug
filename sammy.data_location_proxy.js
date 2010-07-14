@@ -26,6 +26,16 @@
           proxy.app.trigger('location-changed');
         }
       });
+			this.app.$element().bind('click', function(e) {
+				if ($(e.target).attr("hash")) {
+					var path = e.target.hash;
+					var returned = proxy.app.lookupRoute('get', path);
+					if (returned) {
+						proxy.app.setLocation(path);
+						return false;
+					};
+				};
+			});
     },
 
     unbind: function() {
@@ -36,10 +46,7 @@
 			// in Sammy.run, this line:
 			// if (this.getLocation() == '' && typeof start_url != 'undefined') {
 			// was evaluating differently than if we used HashLocationProxy
-			if (this.app.$element().data(this.data_name) === null) {
-				this.app.$element().data(this.data_name, '');
-			};
-      return this.app.$element().data(this.data_name);
+      return this.app.$element().data(this.data_name) || '';
     },
 
     setLocation: function(new_location) {
