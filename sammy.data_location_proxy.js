@@ -33,6 +33,12 @@
     },
 
     getLocation: function() {
+			// in Sammy.run, this line:
+			// if (this.getLocation() == '' && typeof start_url != 'undefined') {
+			// was evaluating differently than if we used HashLocationProxy
+			if (this.app.$element().data(this.data_name) === null) {
+				this.app.$element().data(this.data_name, '');
+			};
       return this.app.$element().data(this.data_name);
     },
 
